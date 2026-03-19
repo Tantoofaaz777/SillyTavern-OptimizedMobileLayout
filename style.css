@@ -1,0 +1,146 @@
+/* ── Chat container ── */
+body.ccl-active #chat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+/* ── Card base ── */
+body.ccl-active .mes {
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 16px;
+    padding: 10px 10px 10px 10px;
+    background-color: var(--SmartThemeBlurTintColor);
+    backdrop-filter: blur(var(--SmartThemeBlurStrength));
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 !important;
+}
+
+/* ── Card header ── */
+body.ccl-active .ccl-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+body.ccl-active .ccl-avatar-col .avatar {
+    width: var(--ccl-avatar-size, 56px);
+    height: var(--ccl-avatar-size, 56px);
+    min-width: var(--ccl-avatar-size, 56px);
+    flex-shrink: 0;
+}
+
+body.ccl-active .ccl-avatar-col .avatar img {
+    width: var(--ccl-avatar-size, 56px);
+    height: var(--ccl-avatar-size, 56px);
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--SmartThemeBorderColor);
+}
+
+body.ccl-active .ccl-info-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+body.ccl-active .ccl-meta-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    font-size: 0.75em;
+    opacity: 0.65;
+    margin-bottom: 2px;
+}
+
+body.ccl-active .ccl-name-row .ch_name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+body.ccl-active .ccl-name-row .name_text {
+    font-size: var(--ccl-name-size, 1.15em);
+    font-weight: bold;
+}
+
+/* ── Texto com variáveis controláveis ── */
+body.ccl-active .mes .mes_text {
+    padding-right: 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: var(--ccl-font-size, 100%) !important;
+    line-height: var(--ccl-line-height, 1.6) !important;
+}
+
+/* ── Swipe bar ── */
+body.ccl-active .mes .ccl-swipe-bar {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
+    margin-top: 8px;
+    width: 100%;
+    position: static !important;
+    border-top: none !important;
+}
+
+body.ccl-active .mes .ccl-swipe-bar .swipe_left {
+    position: static !important;
+    font-size: 1.1em;
+    opacity: 0.8;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center;
+    width: auto !important;
+    height: auto !important;
+    margin-right: 20px !important;
+}
+
+body.ccl-active .mes .ccl-swipe-bar .swipes-counter {
+    font-size: 0.9em;
+    font-weight: 600;
+    opacity: 0.8;
+    min-width: unset;
+    display: flex !important;
+    align-items: center;
+    height: auto !important;
+    margin-bottom: 0 !important;
+    margin-right: 20px !important;
+}
+
+body.ccl-active .mes .ccl-swipe-bar .swipe_right {
+    position: static !important;
+    font-size: 1.1em;
+    opacity: 0.8;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* ── Sliders nas configurações ── */
+.ccl-slider-block {
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ccl-slider-block input[type="range"] {
+    width: 100%;
+}
