@@ -1,4 +1,4 @@
-# Chat Card Layout
+# Optimized Mobile Layout
 
 Transforma o chat do SillyTavern em um layout de cards para Android.
 
