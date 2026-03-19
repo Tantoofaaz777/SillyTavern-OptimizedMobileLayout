@@ -1,10 +1,6 @@
 # Optimized Mobile Layout
 
-Transforma o chat do SillyTavern em um layout de cards para Android.
+Turns the SillyTavern chat into a version optimized for mobile screens. Heavily inspired by the "Hush" theme in Moonlit Echoes by 
 
-## Instalação
+## Instalation:
 
-1. Abra o SillyTavern
-2. Extensions → Install Extension
-3. Cole a URL do GitHub
-4. Recarregue a página
