@@ -1,8 +1,8 @@
 import { extension_settings } from "../../../extensions.js";
 import { saveSettingsDebounced } from "../../../../script.js";
 
-const extensionName = "SillyTavern-OptimizedMobileLayout";
-const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
+const extensionName = "optimized-mobile-layout";
+const extensionFolderPath = `scripts/extensions/third-party/optimized-mobile-layout`;
 
 const defaultSettings = {
     enabled: false,
@@ -11,8 +11,6 @@ const defaultSettings = {
     avatarSize: '56px',
     nameSize: '1.15em'
 };
-
-// ── Aplicar variáveis CSS ──────────────────────────────────
 
 function applyTextSettings(fontSize, lineHeight) {
     document.documentElement.style.setProperty('--ccl-font-size', fontSize);
@@ -27,11 +25,13 @@ function applyNameSize(size) {
     document.documentElement.style.setProperty('--ccl-name-size', size);
 }
 
-// ── DOM restructuring ──────────────────────────────────────
-
 function restructureMessage(mesEl) {
     const $mes = $(mesEl);
     if ($mes.hasClass('ccl-processed')) return;
+
+    // ⚠️ Ignora mensagens do sistema e da tela de boas-vindas
+    if ($mes.hasClass('smallSysMes')) return;
+    if ($mes.attr('is_system') === 'true') return;
 
     const $avatarWrapper = $mes.find('> .mesAvatarWrapper');
     const $mesBlock      = $mes.find('> .mes_block');
@@ -97,8 +97,6 @@ function restoreMessage(mesEl) {
     $mes.removeClass('ccl-processed');
 }
 
-// ── Apply / Remove layout ──────────────────────────────────
-
 let observer = null;
 
 function applyLayout(enabled) {
@@ -120,8 +118,6 @@ function applyLayout(enabled) {
         $('#chat .mes.ccl-processed').each(function () { restoreMessage(this); });
     }
 }
-
-// ── Settings ───────────────────────────────────────────────
 
 function loadSettings() {
     extension_settings[extensionName] = extension_settings[extensionName] || {};
@@ -180,8 +176,6 @@ function onNameSizeChange(event) {
     applyNameSize(val);
     saveSettingsDebounced();
 }
-
-// ── Init ───────────────────────────────────────────────────
 
 jQuery(async () => {
     console.log(`[${extensionName}] Loading...`);
