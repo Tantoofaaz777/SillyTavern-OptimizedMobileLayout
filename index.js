@@ -1,8 +1,8 @@
 import { extension_settings } from "../../../extensions.js";
 import { saveSettingsDebounced } from "../../../../script.js";
 
-const extensionName = "optimized-mobile-layout";
-const extensionFolderPath = `scripts/extensions/third-party/optimized-mobile-layout`;
+const extensionName = "SillyTavern-OptimizedMobileLayout";
+const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 
 const defaultSettings = {
     enabled: false,
