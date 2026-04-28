@@ -13,13 +13,18 @@ body.ccl-active .mes {
     border: 1px solid var(--SmartThemeBorderColor);
     border-radius: 16px;
     padding: 10px 10px 10px 10px;
-    background-color: transparent;
+    background-color: var(--SmartThemeBotMesBlurTintColor, var(--SmartThemeBlurTintColor));
     backdrop-filter: blur(var(--SmartThemeBlurStrength));
+    -webkit-backdrop-filter: blur(var(--SmartThemeBlurStrength));
     display: flex;
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
     margin: 0 !important;
+}
+
+body.ccl-active .mes[is_user="true"] {
+    background-color: var(--SmartThemeUserMesBlurTintColor, var(--SmartThemeBotMesBlurTintColor, var(--SmartThemeBlurTintColor)));
 }
 
 body.ccl-active .mes .mes_block {
