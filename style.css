@@ -89,7 +89,7 @@ body.ccl-active .ccl-name-row .name_text {
 
 /* ── Texto com variáveis controláveis ── */
 body.ccl-active .mes .mes_text {
-    padding-left: 0 !important;
+    padding-left: 4px !important;
     padding-right: 0 !important;
     padding-top: 4px;
     padding-bottom: 4px;
