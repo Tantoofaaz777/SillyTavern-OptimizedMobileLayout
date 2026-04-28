@@ -13,13 +13,19 @@ body.ccl-active .mes {
     border: 1px solid var(--SmartThemeBorderColor);
     border-radius: 16px;
     padding: 10px 10px 10px 10px;
-    background-color: var(--SmartThemeBlurTintColor);
+    background-color: transparent;
     backdrop-filter: blur(var(--SmartThemeBlurStrength));
     display: flex;
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
     margin: 0 !important;
+}
+
+body.ccl-active .mes .mes_block {
+    width: 100%;
+    padding: 0 !important;
+    box-sizing: border-box;
 }
 
 /* ── Card header ── */
@@ -78,11 +84,13 @@ body.ccl-active .ccl-name-row .name_text {
 
 /* ── Texto com variáveis controláveis ── */
 body.ccl-active .mes .mes_text {
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     padding-top: 4px;
     padding-bottom: 4px;
     font-size: var(--ccl-font-size, 100%) !important;
     line-height: var(--ccl-line-height, 1.6) !important;
+    box-sizing: border-box;
 }
 
 /* ── Swipe bar ── */
