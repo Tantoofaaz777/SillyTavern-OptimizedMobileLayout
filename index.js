@@ -435,6 +435,7 @@ async function onCreatePreset() {
     updatePresetControls(settings);
     $("#ccl_presets").val(preset.id);
     saveSettingsDebounced();
+    toastr.success("Layout preset saved");
 }
 
 function onSavePreset() {
@@ -444,6 +445,7 @@ function onSavePreset() {
 
     Object.assign(preset, getPresetPayload(settings));
     saveSettingsDebounced();
+    toastr.success("Layout preset updated");
 }
 
 async function onRenamePreset() {
@@ -483,6 +485,7 @@ async function onDeletePreset() {
     updatePresetControls(settings);
     applySettingsValues(nextPreset);
     saveSettingsDebounced();
+    toastr.success("Layout preset deleted");
 }
 
 async function onResetDefaults() {
