@@ -9,7 +9,7 @@ body.ccl-active #chat {
 }
 
 /* ── Card base ── */
-body.ccl-active .mes {
+body.ccl-active .mes.ccl-processed {
     border: 1px solid var(--SmartThemeBorderColor);
     border-radius: 16px;
     padding: 10px 10px 10px 10px;
@@ -23,11 +23,11 @@ body.ccl-active .mes {
     margin: 0 !important;
 }
 
-body.ccl-active .mes[is_user="true"] {
+body.ccl-active .mes.ccl-processed[is_user="true"] {
     background-color: var(--SmartThemeUserMesBlurTintColor, var(--SmartThemeBotMesBlurTintColor, var(--SmartThemeBlurTintColor)));
 }
 
-body.ccl-active .mes .mes_block {
+body.ccl-active .mes.ccl-processed .mes_block {
     width: 100%;
     padding: 0 !important;
     box-sizing: border-box;
@@ -88,7 +88,7 @@ body.ccl-active .ccl-name-row .name_text {
 }
 
 /* ── Texto com variáveis controláveis ── */
-body.ccl-active .mes .mes_text {
+body.ccl-active .mes.ccl-processed .mes_text {
     padding-left: 4px !important;
     padding-right: 0 !important;
     padding-top: 4px;
@@ -99,7 +99,7 @@ body.ccl-active .mes .mes_text {
 }
 
 /* ── Swipe bar ── */
-body.ccl-active .mes .ccl-swipe-bar {
+body.ccl-active .mes.ccl-processed .ccl-swipe-bar {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
@@ -111,7 +111,7 @@ body.ccl-active .mes .ccl-swipe-bar {
     border-top: none !important;
 }
 
-body.ccl-active .mes .ccl-swipe-bar .swipe_left {
+body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_left {
     position: static !important;
     font-size: 1.1em;
     opacity: 0.8;
@@ -123,7 +123,7 @@ body.ccl-active .mes .ccl-swipe-bar .swipe_left {
     margin-right: 20px !important;
 }
 
-body.ccl-active .mes .ccl-swipe-bar .swipes-counter {
+body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipes-counter {
     font-size: 0.9em;
     font-weight: 600;
     opacity: 0.8;
@@ -135,7 +135,7 @@ body.ccl-active .mes .ccl-swipe-bar .swipes-counter {
     margin-right: 20px !important;
 }
 
-body.ccl-active .mes .ccl-swipe-bar .swipe_right {
+body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     position: static !important;
     font-size: 1.1em;
     opacity: 0.8;
