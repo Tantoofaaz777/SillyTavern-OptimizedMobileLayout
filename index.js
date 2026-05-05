@@ -6,10 +6,10 @@ const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 
 const defaultSettings = {
     enabled: false,
-    fontSize: "16px",
-    lineHeight: "1.6",
-    avatarSize: "56px",
-    nameSize: "1.15em",
+    fontSize: 16,
+    lineHeight: 1.6,
+    avatarSize: 56,
+    nameSize: 18,
 };
 
 const observerConfig = {
@@ -19,19 +19,41 @@ const observerConfig = {
     attributeFilter: ["class", "is_system", "is_user"],
 };
 
+const sliderConfigs = {
+    fontSize: { slider: "#ccl_font_size", counter: "#ccl_font_size_counter", min: 12, max: 28, step: 1, decimals: 0 },
+    nameSize: { slider: "#ccl_name_size", counter: "#ccl_name_size_counter", min: 14, max: 36, step: 1, decimals: 0 },
+    avatarSize: { slider: "#ccl_avatar_size", counter: "#ccl_avatar_size_counter", min: 28, max: 96, step: 2, decimals: 0 },
+    lineHeight: { slider: "#ccl_line_height", counter: "#ccl_line_height_counter", min: 1, max: 2.2, step: 0.1, decimals: 1 },
+};
+
 let observer = null;
 
+function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+}
+
+function normalizeNumber(value, fallback, min, max, decimals = 0) {
+    const parsed = Number.parseFloat(value);
+    const safeValue = Number.isFinite(parsed) ? parsed : fallback;
+    const clamped = clamp(safeValue, min, max);
+    return Number(clamped.toFixed(decimals));
+}
+
+function formatSliderValue(value, decimals) {
+    return decimals > 0 ? value.toFixed(decimals) : String(Math.round(value));
+}
+
 function applyTextSettings(fontSize, lineHeight) {
-    document.documentElement.style.setProperty("--ccl-font-size", fontSize);
-    document.documentElement.style.setProperty("--ccl-line-height", lineHeight);
+    document.documentElement.style.setProperty("--ccl-font-size", `${fontSize}px`);
+    document.documentElement.style.setProperty("--ccl-line-height", String(lineHeight));
 }
 
 function applyAvatarSize(size) {
-    document.documentElement.style.setProperty("--ccl-avatar-size", size);
+    document.documentElement.style.setProperty("--ccl-avatar-size", `${size}px`);
 }
 
 function applyNameSize(size) {
-    document.documentElement.style.setProperty("--ccl-name-size", size);
+    document.documentElement.style.setProperty("--ccl-name-size", `${size}px`);
 }
 
 function shouldSkipMessage($mes) {
@@ -215,22 +237,64 @@ function ensureSettings() {
         Object.assign(extension_settings[extensionName], defaultSettings);
     }
 
-    return extension_settings[extensionName];
+    const settings = extension_settings[extensionName];
+    settings.fontSize = normalizeNumber(settings.fontSize, defaultSettings.fontSize, 12, 28, 0);
+    settings.nameSize = normalizeNumber(settings.nameSize, defaultSettings.nameSize, 14, 36, 0);
+    settings.avatarSize = normalizeNumber(settings.avatarSize, defaultSettings.avatarSize, 28, 96, 0);
+    settings.lineHeight = normalizeNumber(settings.lineHeight, defaultSettings.lineHeight, 1, 2.2, 1);
+
+    return settings;
+}
+
+function updateSliderUI(settingKey, value) {
+    const config = sliderConfigs[settingKey];
+    if (!config) return;
+
+    const formatted = formatSliderValue(value, config.decimals);
+    $(config.slider).val(formatted);
+    $(config.counter).val(formatted);
+}
+
+function applyAllSettings(settings) {
+    applyTextSettings(settings.fontSize, settings.lineHeight);
+    applyAvatarSize(settings.avatarSize);
+    applyNameSize(settings.nameSize);
 }
 
 function loadSettings() {
     const settings = ensureSettings();
 
     $("#ccl_enabled").prop("checked", settings.enabled);
-    $("#ccl_font_size").val(settings.fontSize);
-    $("#ccl_line_height").val(settings.lineHeight);
-    $("#ccl_avatar_size").val(settings.avatarSize);
-    $("#ccl_name_size").val(settings.nameSize);
+    updateSliderUI("fontSize", settings.fontSize);
+    updateSliderUI("nameSize", settings.nameSize);
+    updateSliderUI("avatarSize", settings.avatarSize);
+    updateSliderUI("lineHeight", settings.lineHeight);
 
-    applyTextSettings(settings.fontSize, settings.lineHeight);
-    applyAvatarSize(settings.avatarSize);
-    applyNameSize(settings.nameSize);
+    applyAllSettings(settings);
     applyLayout(settings.enabled);
+}
+
+function bindSliderSetting(settingKey, onApply) {
+    const config = sliderConfigs[settingKey];
+    const $slider = $(config.slider);
+    const $counter = $(config.counter);
+
+    const commitValue = (rawValue) => {
+        const settings = ensureSettings();
+        const normalized = normalizeNumber(rawValue, settings[settingKey], config.min, config.max, config.decimals);
+        settings[settingKey] = normalized;
+        updateSliderUI(settingKey, normalized);
+        onApply(normalized, settings);
+        saveSettingsDebounced();
+    };
+
+    $slider.on("input change", function () {
+        commitValue($(this).val());
+    });
+
+    $counter.on("input change", function () {
+        commitValue($(this).val());
+    });
 }
 
 function onEnabledChange(event) {
@@ -238,46 +302,6 @@ function onEnabledChange(event) {
     settings.enabled = Boolean($(event.target).prop("checked"));
     saveSettingsDebounced();
     applyLayout(settings.enabled);
-}
-
-function onFontSizeChange(event) {
-    const val = $(event.target).val().trim();
-    if (!val) return;
-
-    const settings = ensureSettings();
-    settings.fontSize = val;
-    applyTextSettings(val, settings.lineHeight);
-    saveSettingsDebounced();
-}
-
-function onLineHeightChange(event) {
-    const val = $(event.target).val().trim();
-    if (!val) return;
-
-    const settings = ensureSettings();
-    settings.lineHeight = val;
-    applyTextSettings(settings.fontSize, val);
-    saveSettingsDebounced();
-}
-
-function onAvatarSizeChange(event) {
-    const val = $(event.target).val().trim();
-    if (!val) return;
-
-    const settings = ensureSettings();
-    settings.avatarSize = val;
-    applyAvatarSize(val);
-    saveSettingsDebounced();
-}
-
-function onNameSizeChange(event) {
-    const val = $(event.target).val().trim();
-    if (!val) return;
-
-    const settings = ensureSettings();
-    settings.nameSize = val;
-    applyNameSize(val);
-    saveSettingsDebounced();
 }
 
 jQuery(async () => {
@@ -288,10 +312,19 @@ jQuery(async () => {
         $("#extensions_settings2").append(html);
 
         $("#ccl_enabled").on("change", onEnabledChange);
-        $("#ccl_font_size").on("change", onFontSizeChange);
-        $("#ccl_line_height").on("change", onLineHeightChange);
-        $("#ccl_avatar_size").on("change", onAvatarSizeChange);
-        $("#ccl_name_size").on("change", onNameSizeChange);
+
+        bindSliderSetting("fontSize", (_value, settings) => {
+            applyTextSettings(settings.fontSize, settings.lineHeight);
+        });
+        bindSliderSetting("nameSize", (value) => {
+            applyNameSize(value);
+        });
+        bindSliderSetting("avatarSize", (value) => {
+            applyAvatarSize(value);
+        });
+        bindSliderSetting("lineHeight", (_value, settings) => {
+            applyTextSettings(settings.fontSize, settings.lineHeight);
+        });
 
         loadSettings();
         console.log(`[${extensionName}] Loaded`);
