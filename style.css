@@ -157,17 +157,27 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
 }
 
 /* ── Sliders nas configurações ── */
-.ccl-input-block {
-    margin: 8px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.chat-card-layout-settings .ccl-slider-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    margin-top: 8px;
 }
 
-.ccl-input-block small {
-    opacity: 0.75;
+.chat-card-layout-settings .ccl-slider-grid .range-block-range-and-counter {
+    min-width: 0;
 }
 
-.ccl-input-block input[type="text"] {
-    width: 100%;
+.chat-card-layout-settings .ccl-slider-grid .range-block-title {
+    margin-bottom: 4px;
+}
+
+.chat-card-layout-settings .neo-range-input::-webkit-outer-spin-button,
+.chat-card-layout-settings .neo-range-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.chat-card-layout-settings .neo-range-input {
+    -moz-appearance: textfield;
 }
