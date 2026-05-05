@@ -27,7 +27,7 @@ function applyNameSize(size) {
 
 function shouldSkipMessage($mes) {
     if ($mes.hasClass('smallSysMes')) return true;
-    if ($mes.attr('is_system') === 'true') return true;
+    if ($mes.attr('ch_name') === 'SillyTavern System') return true;
     return false;
 }
 
