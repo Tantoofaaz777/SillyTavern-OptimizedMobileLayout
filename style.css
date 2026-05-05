@@ -157,13 +157,17 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
 }
 
 /* ── Sliders nas configurações ── */
-.ccl-slider-block {
+.ccl-input-block {
     margin: 8px 0;
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.ccl-slider-block input[type="range"] {
+.ccl-input-block small {
+    opacity: 0.75;
+}
+
+.ccl-input-block input[type="text"] {
     width: 100%;
 }
