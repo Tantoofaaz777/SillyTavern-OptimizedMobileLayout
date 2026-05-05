@@ -47,14 +47,21 @@ body.ccl-active .ccl-avatar-col .avatar {
     height: var(--ccl-avatar-size, 56px);
     min-width: var(--ccl-avatar-size, 56px);
     flex-shrink: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid transparent;
 }
 
 body.ccl-active .ccl-avatar-col .avatar img {
-    width: var(--ccl-avatar-size, 56px);
-    height: var(--ccl-avatar-size, 56px);
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border: 1px solid var(--SmartThemeBorderColor);
+    border: none;
+    border-radius: inherit;
+}
+
+body.ccl-active.ccl-avatar-border .ccl-avatar-col .avatar {
+    border-color: var(--SmartThemeBorderColor);
 }
 
 body.hideChatAvatars.ccl-active .mes.ccl-processed .ccl-avatar-col {
@@ -162,6 +169,31 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px 12px;
     margin-top: 8px;
+}
+
+.chat-card-layout-settings .ccl-presets-row {
+    gap: 6px;
+    align-items: center;
+}
+
+.chat-card-layout-settings .ccl-presets-row select {
+    min-width: 0;
+}
+
+.chat-card-layout-settings .ccl-presets-row .menu_button,
+.chat-card-layout-settings .ccl-actions-row .menu_button {
+    flex-shrink: 0;
+}
+
+.chat-card-layout-settings .ccl-actions-row {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.chat-card-layout-settings .ccl-presets-row .menu_button.disabled {
+    opacity: 0.45;
+    pointer-events: none;
 }
 
 .chat-card-layout-settings .ccl-slider-grid .range-block-range-and-counter {

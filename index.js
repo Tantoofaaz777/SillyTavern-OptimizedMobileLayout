@@ -1,15 +1,17 @@
 import { extension_settings } from "../../../extensions.js";
 import { saveSettingsDebounced } from "../../../../script.js";
+import { Popup } from "../../../popup.js";
 
 const extensionName = "SillyTavern-OptimizedMobileLayout";
 const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 
 const defaultSettings = {
     enabled: false,
-    fontSize: 16,
-    lineHeight: 1.6,
-    avatarSize: 56,
-    nameSize: 18,
+    avatarBorder: true,
+    fontSize: 15,
+    lineHeight: 1.5,
+    avatarSize: 50,
+    nameSize: 15,
 };
 
 const observerConfig = {
@@ -27,6 +29,14 @@ const sliderConfigs = {
 };
 
 let observer = null;
+
+function createPresetId() {
+    if (typeof crypto?.randomUUID === "function") {
+        return crypto.randomUUID();
+    }
+
+    return `preset-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
 
 function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -54,6 +64,10 @@ function applyAvatarSize(size) {
 
 function applyNameSize(size) {
     document.documentElement.style.setProperty("--ccl-name-size", `${size}px`);
+}
+
+function applyAvatarBorder(enabled) {
+    $("body").toggleClass("ccl-avatar-border", enabled);
 }
 
 function shouldSkipMessage($mes) {
@@ -193,6 +207,8 @@ function startObserver() {
     const chat = document.getElementById("chat");
     if (!chat) return;
 
+    stopObserver();
+
     observer = new MutationObserver((mutations) => {
         if (!$("body").hasClass("ccl-active")) return;
 
@@ -242,6 +258,19 @@ function ensureSettings() {
     settings.nameSize = normalizeNumber(settings.nameSize, defaultSettings.nameSize, 14, 36, 0);
     settings.avatarSize = normalizeNumber(settings.avatarSize, defaultSettings.avatarSize, 28, 96, 0);
     settings.lineHeight = normalizeNumber(settings.lineHeight, defaultSettings.lineHeight, 1, 2.2, 1);
+    settings.avatarBorder = settings.avatarBorder ?? defaultSettings.avatarBorder;
+    settings.presets = Array.isArray(settings.presets) && settings.presets.length
+        ? settings.presets.map((preset, index) => normalizePreset(preset, index === 0 ? "Default" : `Preset ${index + 1}`))
+        : [
+            normalizePreset({
+                id: createPresetId(),
+                name: "Default",
+                ...getPresetPayload(settings),
+            }, "Default"),
+        ];
+
+    const selectedPreset = settings.presets.find((preset) => preset.id === settings.selectedPresetId) ?? settings.presets[0];
+    settings.selectedPresetId = selectedPreset.id;
 
     return settings;
 }
@@ -259,18 +288,79 @@ function applyAllSettings(settings) {
     applyTextSettings(settings.fontSize, settings.lineHeight);
     applyAvatarSize(settings.avatarSize);
     applyNameSize(settings.nameSize);
+    applyAvatarBorder(settings.avatarBorder);
+}
+
+function getPresetPayload(source) {
+    return {
+        fontSize: source.fontSize,
+        nameSize: source.nameSize,
+        avatarSize: source.avatarSize,
+        lineHeight: source.lineHeight,
+    };
+}
+
+function normalizePreset(preset, fallbackName = "Default") {
+    return {
+        id: preset?.id || createPresetId(),
+        name: String(preset?.name || fallbackName).trim() || fallbackName,
+        fontSize: normalizeNumber(preset?.fontSize, defaultSettings.fontSize, 12, 28, 0),
+        nameSize: normalizeNumber(preset?.nameSize, defaultSettings.nameSize, 14, 36, 0),
+        avatarSize: normalizeNumber(preset?.avatarSize, defaultSettings.avatarSize, 28, 96, 0),
+        lineHeight: normalizeNumber(preset?.lineHeight, defaultSettings.lineHeight, 1, 2.2, 1),
+    };
+}
+
+function getSelectedPreset(settings) {
+    return settings.presets.find((preset) => preset.id === settings.selectedPresetId) ?? settings.presets[0] ?? null;
+}
+
+function updatePresetControls(settings) {
+    const $select = $("#ccl_presets");
+    const selectedPreset = getSelectedPreset(settings);
+
+    $select.empty();
+
+    settings.presets.forEach((preset) => {
+        $select.append(
+            $("<option></option>")
+                .val(preset.id)
+                .text(preset.name),
+        );
+    });
+
+    if (selectedPreset) {
+        $select.val(selectedPreset.id);
+    }
+
+    $("#ccl_preset_delete").toggleClass("disabled", settings.presets.length <= 1);
+}
+
+function updateAllSliderUI(settings) {
+    updateSliderUI("fontSize", settings.fontSize);
+    updateSliderUI("nameSize", settings.nameSize);
+    updateSliderUI("avatarSize", settings.avatarSize);
+    updateSliderUI("lineHeight", settings.lineHeight);
+}
+
+function applySettingsValues(values) {
+    const settings = ensureSettings();
+    settings.fontSize = normalizeNumber(values.fontSize, settings.fontSize, 12, 28, 0);
+    settings.nameSize = normalizeNumber(values.nameSize, settings.nameSize, 14, 36, 0);
+    settings.avatarSize = normalizeNumber(values.avatarSize, settings.avatarSize, 28, 96, 0);
+    settings.lineHeight = normalizeNumber(values.lineHeight, settings.lineHeight, 1, 2.2, 1);
+
+    updateAllSliderUI(settings);
+    applyAllSettings(settings);
 }
 
 function loadSettings() {
     const settings = ensureSettings();
 
     $("#ccl_enabled").prop("checked", settings.enabled);
-    updateSliderUI("fontSize", settings.fontSize);
-    updateSliderUI("nameSize", settings.nameSize);
-    updateSliderUI("avatarSize", settings.avatarSize);
-    updateSliderUI("lineHeight", settings.lineHeight);
-
-    applyAllSettings(settings);
+    $("#ccl_avatar_border").prop("checked", settings.avatarBorder);
+    updatePresetControls(settings);
+    applySettingsValues(settings);
     applyLayout(settings.enabled);
 }
 
@@ -311,6 +401,127 @@ function onEnabledChange(event) {
     applyLayout(settings.enabled);
 }
 
+function onAvatarBorderChange(event) {
+    const settings = ensureSettings();
+    settings.avatarBorder = Boolean($(event.target).prop("checked"));
+    applyAvatarBorder(settings.avatarBorder);
+    saveSettingsDebounced();
+}
+
+async function promptForPresetName(title, message, initialValue = "") {
+    let promptMessage = message;
+    let currentValue = initialValue;
+
+    while (true) {
+        const name = await Popup.show.input(title, promptMessage, currentValue);
+        if (typeof name !== "string") {
+            return null;
+        }
+
+        const trimmed = name.trim();
+        if (trimmed.length) {
+            return trimmed;
+        }
+
+        promptMessage = "Please enter a name for this preset.";
+        currentValue = "";
+    }
+}
+
+async function onPresetChange(event) {
+    const settings = ensureSettings();
+    const selectedId = String($(event.target).val() || "");
+    const preset = settings.presets.find((item) => item.id === selectedId);
+
+    if (!preset) return;
+
+    settings.selectedPresetId = preset.id;
+    applySettingsValues(preset);
+    saveSettingsDebounced();
+}
+
+async function onCreatePreset() {
+    const settings = ensureSettings();
+    const name = await promptForPresetName("Create Layout Preset", "Enter a name for the new layout preset:");
+    if (!name) return;
+
+    const preset = {
+        id: createPresetId(),
+        name,
+        ...getPresetPayload(settings),
+    };
+
+    settings.presets.push(normalizePreset(preset, name));
+    settings.selectedPresetId = preset.id;
+    updatePresetControls(settings);
+    $("#ccl_presets").val(preset.id);
+    saveSettingsDebounced();
+    toastr.success("Layout preset saved");
+}
+
+function onSavePreset() {
+    const settings = ensureSettings();
+    const preset = getSelectedPreset(settings);
+    if (!preset) return;
+
+    Object.assign(preset, getPresetPayload(settings));
+    saveSettingsDebounced();
+    toastr.success("Layout preset updated");
+}
+
+async function onRenamePreset() {
+    const settings = ensureSettings();
+    const preset = getSelectedPreset(settings);
+    if (!preset) return;
+
+    const newName = await promptForPresetName("Rename Layout Preset", "Enter a new name for this layout preset:", preset.name);
+    if (!newName) return;
+
+    preset.name = newName;
+    updatePresetControls(settings);
+    saveSettingsDebounced();
+}
+
+async function onDeletePreset() {
+    const settings = ensureSettings();
+    if (settings.presets.length <= 1) return;
+
+    const preset = getSelectedPreset(settings);
+    if (!preset) return;
+
+    const confirmed = await Popup.show.confirm(
+        "Delete Layout Preset",
+        `Are you sure you want to delete "${preset.name}"?`,
+        { okButton: "Delete", cancelButton: "Cancel" },
+    );
+
+    if (!confirmed) return;
+
+    const presetIndex = settings.presets.findIndex((item) => item.id === preset.id);
+    if (presetIndex === -1) return;
+
+    settings.presets.splice(presetIndex, 1);
+    const nextPreset = settings.presets[Math.max(0, presetIndex - 1)] ?? settings.presets[0];
+    settings.selectedPresetId = nextPreset.id;
+    updatePresetControls(settings);
+    applySettingsValues(nextPreset);
+    saveSettingsDebounced();
+    toastr.success("Layout preset deleted");
+}
+
+async function onResetDefaults() {
+    const confirmed = await Popup.show.confirm(
+        "Reset to Default",
+        "This will restore the layout settings to the default values.",
+        { okButton: "Reset", cancelButton: "Cancel" },
+    );
+
+    if (!confirmed) return;
+
+    applySettingsValues(defaultSettings);
+    saveSettingsDebounced();
+}
+
 jQuery(async () => {
     console.log(`[${extensionName}] Loading...`);
 
@@ -319,6 +530,13 @@ jQuery(async () => {
         $("#extensions_settings2").append(html);
 
         $("#ccl_enabled").on("change", onEnabledChange);
+        $("#ccl_avatar_border").on("change", onAvatarBorderChange);
+        $("#ccl_presets").on("change", onPresetChange);
+        $("#ccl_preset_create").on("click", onCreatePreset);
+        $("#ccl_preset_save").on("click", onSavePreset);
+        $("#ccl_preset_rename").on("click", onRenamePreset);
+        $("#ccl_preset_delete").on("click", onDeletePreset);
+        $("#ccl_reset_defaults").on("click", onResetDefaults);
 
         bindSliderSetting("fontSize", (_value, settings) => {
             applyTextSettings(settings.fontSize, settings.lineHeight);

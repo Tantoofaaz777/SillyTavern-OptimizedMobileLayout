@@ -11,6 +11,27 @@
                 <span>Enable mobile layout</span>
             </label>
 
+            <label class="checkbox_label">
+                <input id="ccl_avatar_border" type="checkbox" />
+                <span>Show avatar border</span>
+            </label>
+
+            <hr>
+
+            <div class="ccl-presets-block">
+                <div class="flex-container alignItemsBaseline">
+                    <strong class="flex1">Layout Presets</strong>
+                </div>
+                <small>Save and switch between layout presets.</small>
+                <div class="flex-container marginTop5 ccl-presets-row">
+                    <select id="ccl_presets" class="text_pole flex1"></select>
+                    <div id="ccl_preset_create" class="menu_button fa-solid fa-file-circle-plus" title="Create a new layout preset"></div>
+                    <div id="ccl_preset_save" class="menu_button fa-solid fa-save" title="Save current values to the selected preset"></div>
+                    <div id="ccl_preset_rename" class="menu_button fa-solid fa-pencil" title="Rename the selected preset"></div>
+                    <div id="ccl_preset_delete" class="menu_button fa-solid fa-trash" title="Delete the selected preset"></div>
+                </div>
+            </div>
+
             <hr>
 
             <div class="ccl-slider-grid">
@@ -44,6 +65,13 @@
                     <div class="wide100p">
                         <input class="neo-range-input" type="number" min="1" max="2.2" step="0.1" data-for="ccl_line_height" id="ccl_line_height_counter">
                     </div>
+                </div>
+            </div>
+
+            <div class="ccl-actions-row">
+                <div id="ccl_reset_defaults" class="menu_button menu_button_icon">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <small>Reset to Default</small>
                 </div>
             </div>
 
