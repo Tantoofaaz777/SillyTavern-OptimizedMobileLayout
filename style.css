@@ -88,6 +88,8 @@ body.ccl-active .ccl-name-row .ch_name {
     justify-content: space-between;
     width: 100%;
     margin-bottom: 0;
+    padding-left: 4px;
+    box-sizing: border-box;
 }
 
 body.ccl-active .ccl-name-row .name_text {
