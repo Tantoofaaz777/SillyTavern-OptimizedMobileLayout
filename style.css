@@ -181,9 +181,3 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
 .chat-card-layout-settings .neo-range-input {
     -moz-appearance: textfield;
 }
-
-@media (max-width: 480px) {
-    .chat-card-layout-settings .ccl-slider-grid {
-        grid-template-columns: 1fr;
-    }
-}
