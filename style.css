@@ -97,49 +97,6 @@ body.ccl-active .ccl-name-row .name_text {
     font-weight: bold;
 }
 
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-card-header {
-    flex-direction: row-reverse;
-}
-
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-info-col {
-    flex: 0 1 auto;
-    width: auto;
-    align-items: flex-end;
-    margin-left: auto;
-}
-
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-meta-row {
-    justify-content: flex-end;
-}
-
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row {
-    display: flex;
-    justify-content: flex-end;
-    width: auto;
-}
-
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name {
-    width: auto;
-    max-width: 100%;
-    padding-left: 0;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-    text-align: right;
-}
-
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name > .flex1 {
-    flex: 0 1 auto;
-    order: 2;
-    justify-content: flex-end;
-}
-
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name > .mes_buttons,
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name > .mes_edit_buttons {
-    order: 1;
-}
-
 /* ── Texto com variáveis controláveis ── */
 body.ccl-active .mes.ccl-processed .mes_text {
     padding-left: 4px !important;
