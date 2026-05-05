@@ -7,6 +7,7 @@ const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 
 const defaultSettings = {
     enabled: false,
+    avatarBorder: true,
     fontSize: 15,
     lineHeight: 1.5,
     avatarSize: 50,
@@ -63,6 +64,10 @@ function applyAvatarSize(size) {
 
 function applyNameSize(size) {
     document.documentElement.style.setProperty("--ccl-name-size", `${size}px`);
+}
+
+function applyAvatarBorder(enabled) {
+    $("body").toggleClass("ccl-avatar-border", enabled);
 }
 
 function shouldSkipMessage($mes) {
@@ -251,6 +256,7 @@ function ensureSettings() {
     settings.nameSize = normalizeNumber(settings.nameSize, defaultSettings.nameSize, 14, 36, 0);
     settings.avatarSize = normalizeNumber(settings.avatarSize, defaultSettings.avatarSize, 28, 96, 0);
     settings.lineHeight = normalizeNumber(settings.lineHeight, defaultSettings.lineHeight, 1, 2.2, 1);
+    settings.avatarBorder = settings.avatarBorder ?? defaultSettings.avatarBorder;
     settings.presets = Array.isArray(settings.presets) && settings.presets.length
         ? settings.presets.map((preset, index) => normalizePreset(preset, index === 0 ? "Default" : `Preset ${index + 1}`))
         : [
@@ -280,6 +286,7 @@ function applyAllSettings(settings) {
     applyTextSettings(settings.fontSize, settings.lineHeight);
     applyAvatarSize(settings.avatarSize);
     applyNameSize(settings.nameSize);
+    applyAvatarBorder(settings.avatarBorder);
 }
 
 function getPresetPayload(source) {
@@ -345,6 +352,7 @@ function loadSettings() {
     const settings = ensureSettings();
 
     $("#ccl_enabled").prop("checked", settings.enabled);
+    $("#ccl_avatar_border").prop("checked", settings.avatarBorder);
     updatePresetControls(settings);
     applySettingsValues(settings);
     applyLayout(settings.enabled);
@@ -385,6 +393,13 @@ function onEnabledChange(event) {
     settings.enabled = Boolean($(event.target).prop("checked"));
     saveSettingsDebounced();
     applyLayout(settings.enabled);
+}
+
+function onAvatarBorderChange(event) {
+    const settings = ensureSettings();
+    settings.avatarBorder = Boolean($(event.target).prop("checked"));
+    applyAvatarBorder(settings.avatarBorder);
+    saveSettingsDebounced();
 }
 
 async function promptForPresetName(title, message, initialValue = "") {
@@ -509,6 +524,7 @@ jQuery(async () => {
         $("#extensions_settings2").append(html);
 
         $("#ccl_enabled").on("change", onEnabledChange);
+        $("#ccl_avatar_border").on("change", onAvatarBorderChange);
         $("#ccl_presets").on("change", onPresetChange);
         $("#ccl_preset_create").on("click", onCreatePreset);
         $("#ccl_preset_save").on("click", onSavePreset);
