@@ -60,12 +60,8 @@ body.ccl-active .ccl-avatar-col .avatar img {
     border-radius: inherit;
 }
 
-body.ccl-active.ccl-avatar-border .ccl-avatar-col .avatar img {
-    border-color: transparent;
-}
-
 body.ccl-active.ccl-avatar-border .ccl-avatar-col .avatar {
-    border-color: color-mix(in srgb, var(--SmartThemeQuoteColor) 55%, transparent);
+    border-color: var(--SmartThemeBorderColor);
 }
 
 body.hideChatAvatars.ccl-active .mes.ccl-processed .ccl-avatar-col {
