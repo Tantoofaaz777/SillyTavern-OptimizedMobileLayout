@@ -102,13 +102,26 @@ body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-ca
 }
 
 body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-info-col {
-    align-items: flex-end;
+    align-items: stretch;
 }
 
-body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-meta-row,
 body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name {
-    justify-content: flex-end;
+    justify-content: flex-start;
     text-align: right;
+}
+
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-meta-row {
+    justify-content: flex-end;
+}
+
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name {
+    width: auto;
+    max-width: 100%;
 }
 
 /* ── Texto com variáveis controláveis ── */
