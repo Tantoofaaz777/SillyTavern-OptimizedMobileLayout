@@ -292,8 +292,15 @@ function bindSliderSetting(settingKey, onApply) {
         commitValue($(this).val());
     });
 
-    $counter.on("input change", function () {
+    $counter.on("change blur", function () {
         commitValue($(this).val());
+    });
+
+    $counter.on("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            $(this).trigger("blur");
+        }
     });
 }
 
