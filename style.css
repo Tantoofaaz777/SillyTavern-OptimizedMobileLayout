@@ -106,8 +106,10 @@ body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-in
 }
 
 body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name {
-    flex-direction: row-reverse;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
     text-align: right;
 }
 
@@ -128,6 +130,11 @@ body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-na
 body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name > .flex1 {
     flex: 0 1 auto;
     justify-content: flex-end;
+}
+
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .mes_buttons,
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .mes_edit_buttons {
+    order: -1;
 }
 
 /* ── Texto com variáveis controláveis ── */
