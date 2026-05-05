@@ -65,7 +65,7 @@ body.ccl-active.ccl-avatar-border .ccl-avatar-col .avatar img {
 }
 
 body.ccl-active.ccl-avatar-border .ccl-avatar-col .avatar {
-    border-color: #ffffff;
+    border-color: var(--SmartThemeQuoteColor);
 }
 
 body.hideChatAvatars.ccl-active .mes.ccl-processed .ccl-avatar-col {
