@@ -25,13 +25,18 @@ function applyNameSize(size) {
     document.documentElement.style.setProperty('--ccl-name-size', size);
 }
 
+function shouldSkipMessage($mes) {
+    if ($mes.hasClass('smallSysMes')) return true;
+    if ($mes.attr('is_system') === 'true') return true;
+    return false;
+}
+
 function restructureMessage(mesEl) {
     const $mes = $(mesEl);
     if ($mes.hasClass('ccl-processed')) return;
 
     // ⚠️ Ignora mensagens do sistema e da tela de boas-vindas
-    if ($mes.hasClass('smallSysMes')) return;
-    if ($mes.attr('is_system') === 'true') return;
+    if (shouldSkipMessage($mes)) return;
 
     const $avatarWrapper = $mes.find('> .mesAvatarWrapper');
     const $mesBlock      = $mes.find('> .mes_block');
@@ -99,19 +104,77 @@ function restoreMessage(mesEl) {
 
 let observer = null;
 
+function refreshMessage(mesEl) {
+    const $mes = $(mesEl);
+    if (!$mes.length) return;
+
+    if ($mes.hasClass('ccl-processed')) {
+        restoreMessage($mes[0]);
+    }
+
+    if (!shouldSkipMessage($mes)) {
+        restructureMessage($mes[0]);
+    }
+}
+
+function startObserver() {
+    const chat = document.getElementById('chat');
+    if (!chat) return;
+
+    observer = new MutationObserver((mutations) => {
+        if (!$('body').hasClass('ccl-active')) return;
+
+        const messagesToRefresh = new Set();
+
+        mutations.forEach((mutation) => {
+            const targetMes = mutation.target instanceof Element
+                ? mutation.target.closest('.mes')
+                : null;
+
+            if (targetMes) {
+                messagesToRefresh.add(targetMes);
+            }
+
+            mutation.addedNodes.forEach((node) => {
+                if (!(node instanceof Element)) return;
+
+                if (node.classList.contains('mes')) {
+                    messagesToRefresh.add(node);
+                    return;
+                }
+
+                const parentMes = node.closest('.mes');
+                if (parentMes) {
+                    messagesToRefresh.add(parentMes);
+                }
+            });
+        });
+
+        if (!messagesToRefresh.size) return;
+
+        observer.disconnect();
+        messagesToRefresh.forEach((mes) => refreshMessage(mes));
+        observer.observe(chat, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class', 'is_system', 'is_user'],
+        });
+    });
+
+    observer.observe(chat, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'is_system', 'is_user'],
+    });
+}
+
 function applyLayout(enabled) {
     if (enabled) {
         $('body').addClass('ccl-active');
-        $('#chat .mes').each(function () { restructureMessage(this); });
-        observer = new MutationObserver((mutations) => {
-            mutations.forEach(m => {
-                m.addedNodes.forEach(node => {
-                    if ($(node).hasClass('mes')) restructureMessage(node);
-                });
-            });
-        });
-        const chat = document.getElementById('chat');
-        if (chat) observer.observe(chat, { childList: true });
+        $('#chat .mes').each(function () { refreshMessage(this); });
+        startObserver();
     } else {
         $('body').removeClass('ccl-active');
         if (observer) { observer.disconnect(); observer = null; }
