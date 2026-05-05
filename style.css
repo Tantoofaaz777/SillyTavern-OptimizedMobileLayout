@@ -164,6 +164,31 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     margin-top: 8px;
 }
 
+.chat-card-layout-settings .ccl-presets-row {
+    gap: 6px;
+    align-items: center;
+}
+
+.chat-card-layout-settings .ccl-presets-row select {
+    min-width: 0;
+}
+
+.chat-card-layout-settings .ccl-presets-row .menu_button,
+.chat-card-layout-settings .ccl-actions-row .menu_button {
+    flex-shrink: 0;
+}
+
+.chat-card-layout-settings .ccl-actions-row {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.chat-card-layout-settings .ccl-presets-row .menu_button.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
 .chat-card-layout-settings .ccl-slider-grid .range-block-range-and-counter {
     min-width: 0;
 }
