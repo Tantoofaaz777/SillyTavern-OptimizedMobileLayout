@@ -57,6 +57,14 @@ body.ccl-active .ccl-avatar-col .avatar img {
     border: 1px solid var(--SmartThemeBorderColor);
 }
 
+body.hideChatAvatars.ccl-active .mes.ccl-processed .ccl-avatar-col {
+    display: none;
+}
+
+body.hideChatAvatars.ccl-active .mes.ccl-processed .ccl-card-header {
+    gap: 0;
+}
+
 body.ccl-active .ccl-info-col {
     display: flex;
     flex-direction: column;
