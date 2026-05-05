@@ -4,6 +4,14 @@ Turns the SillyTavern chat into a version optimized for mobile screens. Heavily 
 
 **100% vibecoded with Claude and GPT Codex.**
 
-| CHAT | SETTINGS |
-|----------|----------|
-| ![chat](assets/chat.jpg) | ![settings](assets/settings.jpg) |
+
+<table>
+  <tr>
+    <td align="center"><b>SETTINGS</b></td>
+    <td align="center"><b>CHAT</b></td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="assets/settings.jpg" /></td>
+    <td valign="top"><img src="assets/chat.jpg" /></td>
+  </tr>
+</table>
