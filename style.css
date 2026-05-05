@@ -97,6 +97,20 @@ body.ccl-active .ccl-name-row .name_text {
     font-weight: bold;
 }
 
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-card-header {
+    flex-direction: row-reverse;
+}
+
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-info-col {
+    align-items: flex-end;
+}
+
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-meta-row,
+body.ccl-active.ccl-user-header-right .mes.ccl-processed[is_user="true"] .ccl-name-row .ch_name {
+    justify-content: flex-end;
+    text-align: right;
+}
+
 /* ── Texto com variáveis controláveis ── */
 body.ccl-active .mes.ccl-processed .mes_text {
     padding-left: 4px !important;
