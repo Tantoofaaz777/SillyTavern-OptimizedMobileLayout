@@ -54,7 +54,11 @@ body.ccl-active .ccl-avatar-col .avatar img {
     height: var(--ccl-avatar-size, 56px);
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid var(--SmartThemeBorderColor);
+    border: 1px solid transparent;
+}
+
+body.ccl-active.ccl-avatar-border .ccl-avatar-col .avatar img {
+    border-color: var(--SmartThemeBorderColor);
 }
 
 body.hideChatAvatars.ccl-active .mes.ccl-processed .ccl-avatar-col {
