@@ -207,6 +207,8 @@ function startObserver() {
     const chat = document.getElementById("chat");
     if (!chat) return;
 
+    stopObserver();
+
     observer = new MutationObserver((mutations) => {
         if (!$("body").hasClass("ccl-active")) return;
 
@@ -334,6 +336,13 @@ function updatePresetControls(settings) {
     $("#ccl_preset_delete").toggleClass("disabled", settings.presets.length <= 1);
 }
 
+function updateAllSliderUI(settings) {
+    updateSliderUI("fontSize", settings.fontSize);
+    updateSliderUI("nameSize", settings.nameSize);
+    updateSliderUI("avatarSize", settings.avatarSize);
+    updateSliderUI("lineHeight", settings.lineHeight);
+}
+
 function applySettingsValues(values) {
     const settings = ensureSettings();
     settings.fontSize = normalizeNumber(values.fontSize, settings.fontSize, 12, 28, 0);
@@ -341,10 +350,7 @@ function applySettingsValues(values) {
     settings.avatarSize = normalizeNumber(values.avatarSize, settings.avatarSize, 28, 96, 0);
     settings.lineHeight = normalizeNumber(values.lineHeight, settings.lineHeight, 1, 2.2, 1);
 
-    updateSliderUI("fontSize", settings.fontSize);
-    updateSliderUI("nameSize", settings.nameSize);
-    updateSliderUI("avatarSize", settings.avatarSize);
-    updateSliderUI("lineHeight", settings.lineHeight);
+    updateAllSliderUI(settings);
     applyAllSettings(settings);
 }
 
