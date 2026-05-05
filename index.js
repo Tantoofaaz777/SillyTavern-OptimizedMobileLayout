@@ -10,7 +10,6 @@ const defaultSettings = {
     lineHeight: "1.6",
     avatarSize: "56px",
     nameSize: "1.15em",
-    userHeaderRight: false,
 };
 
 const observerConfig = {
@@ -33,10 +32,6 @@ function applyAvatarSize(size) {
 
 function applyNameSize(size) {
     document.documentElement.style.setProperty("--ccl-name-size", size);
-}
-
-function applyUserHeaderAlignment(enabled) {
-    $("body").toggleClass("ccl-user-header-right", enabled);
 }
 
 function shouldSkipMessage($mes) {
@@ -231,12 +226,10 @@ function loadSettings() {
     $("#ccl_line_height").val(settings.lineHeight);
     $("#ccl_avatar_size").val(settings.avatarSize);
     $("#ccl_name_size").val(settings.nameSize);
-    $("#ccl_user_header_right").prop("checked", settings.userHeaderRight);
 
     applyTextSettings(settings.fontSize, settings.lineHeight);
     applyAvatarSize(settings.avatarSize);
     applyNameSize(settings.nameSize);
-    applyUserHeaderAlignment(settings.userHeaderRight);
     applyLayout(settings.enabled);
 }
 
@@ -287,13 +280,6 @@ function onNameSizeChange(event) {
     saveSettingsDebounced();
 }
 
-function onUserHeaderRightChange(event) {
-    const settings = ensureSettings();
-    settings.userHeaderRight = Boolean($(event.target).prop("checked"));
-    applyUserHeaderAlignment(settings.userHeaderRight);
-    saveSettingsDebounced();
-}
-
 jQuery(async () => {
     console.log(`[${extensionName}] Loading...`);
 
@@ -306,7 +292,6 @@ jQuery(async () => {
         $("#ccl_line_height").on("change", onLineHeightChange);
         $("#ccl_avatar_size").on("change", onAvatarSizeChange);
         $("#ccl_name_size").on("change", onNameSizeChange);
-        $("#ccl_user_header_right").on("change", onUserHeaderRightChange);
 
         loadSettings();
         console.log(`[${extensionName}] Loaded`);
