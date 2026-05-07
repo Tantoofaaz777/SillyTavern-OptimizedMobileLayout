@@ -59,13 +59,14 @@ body.ccl-active .ccl-avatar-col .avatar {
     flex-shrink: 0;
     overflow: hidden;
     box-sizing: border-box;
-    border: 2px solid transparent;
-    padding: 2px;
+    border: 1.5px solid transparent;
 }
 
 body.ccl-active .ccl-avatar-col .avatar img {
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    margin: 2px;
+    display: block;
     object-fit: cover;
     border: none;
     border-radius: inherit;
