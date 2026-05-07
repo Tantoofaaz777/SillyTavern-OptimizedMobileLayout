@@ -343,6 +343,15 @@ function updateAllSliderUI(settings) {
     updateSliderUI("lineHeight", settings.lineHeight);
 }
 
+function updateLayoutDependentControls(enabled) {
+    $("#ccl_avatar_border").prop("disabled", !enabled);
+    $("#ccl_avatar_border_row").toggleClass("ccl-setting-disabled", !enabled);
+
+    $("#ccl_avatar_size").prop("disabled", !enabled);
+    $("#ccl_avatar_size_counter").prop("disabled", !enabled);
+    $("#ccl_avatar_size_block").toggleClass("ccl-setting-disabled", !enabled);
+}
+
 function applySettingsValues(values) {
     const settings = ensureSettings();
     settings.fontSize = normalizeNumber(values.fontSize, settings.fontSize, 12, 28, 0);
@@ -360,6 +369,7 @@ function loadSettings() {
     $("#ccl_enabled").prop("checked", settings.enabled);
     $("#ccl_avatar_border").prop("checked", settings.avatarBorder);
     updatePresetControls(settings);
+    updateLayoutDependentControls(settings.enabled);
     applySettingsValues(settings);
     applyLayout(settings.enabled);
 }
@@ -397,6 +407,7 @@ function bindSliderSetting(settingKey, onApply) {
 function onEnabledChange(event) {
     const settings = ensureSettings();
     settings.enabled = Boolean($(event.target).prop("checked"));
+    updateLayoutDependentControls(settings.enabled);
     saveSettingsDebounced();
     applyLayout(settings.enabled);
 }

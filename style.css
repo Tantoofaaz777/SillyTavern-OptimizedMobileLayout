@@ -1,18 +1,28 @@
-/* ── Chat container ── */
+/* Global typography settings */
+#chat .mes .mes_text {
+    font-size: var(--ccl-font-size, 100%) !important;
+    line-height: var(--ccl-line-height, 1.6) !important;
+}
+
+#chat .mes .name_text {
+    font-size: var(--ccl-name-size, 1.15em);
+}
+
+/* Chat container */
 body.ccl-active #chat {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     padding: 8px !important;
     border-left: none !important;
     border-right: none !important;
 }
 
-/* ── Card base ── */
+/* Card base */
 body.ccl-active .mes.ccl-processed {
     border: 1px solid var(--SmartThemeBorderColor);
     border-radius: 16px;
-    padding: 10px 10px 10px 10px;
+    padding: 10px;
     background-color: var(--SmartThemeBotMesBlurTintColor, var(--SmartThemeBlurTintColor));
     backdrop-filter: blur(var(--SmartThemeBlurStrength));
     -webkit-backdrop-filter: blur(var(--SmartThemeBlurStrength));
@@ -33,7 +43,7 @@ body.ccl-active .mes.ccl-processed .mes_block {
     box-sizing: border-box;
 }
 
-/* ── Card header ── */
+/* Card header */
 body.ccl-active .ccl-card-header {
     display: flex;
     flex-direction: row;
@@ -49,12 +59,14 @@ body.ccl-active .ccl-avatar-col .avatar {
     flex-shrink: 0;
     overflow: hidden;
     box-sizing: border-box;
-    border: 1px solid transparent;
+    border: 1.5px solid transparent;
 }
 
 body.ccl-active .ccl-avatar-col .avatar img {
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    margin: 2px;
+    display: block;
     object-fit: cover;
     border: none;
     border-radius: inherit;
@@ -96,26 +108,24 @@ body.ccl-active .ccl-name-row .ch_name {
     width: 100%;
     margin-bottom: 0;
     padding-left: 4px;
+    padding-right: 4px;
     box-sizing: border-box;
 }
 
 body.ccl-active .ccl-name-row .name_text {
-    font-size: var(--ccl-name-size, 1.15em);
     font-weight: bold;
 }
 
-/* ── Texto com variáveis controláveis ── */
+/* Controlled text spacing inside card layout */
 body.ccl-active .mes.ccl-processed .mes_text {
     padding-left: 4px !important;
-    padding-right: 0 !important;
+    padding-right: 4px !important;
     padding-top: 4px;
     padding-bottom: 4px;
-    font-size: var(--ccl-font-size, 100%) !important;
-    line-height: var(--ccl-line-height, 1.6) !important;
     box-sizing: border-box;
 }
 
-/* ── Swipe bar ── */
+/* Swipe bar */
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar {
     display: flex !important;
     flex-direction: row !important;
@@ -130,8 +140,8 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar {
 
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_left {
     position: static !important;
-    font-size: 1.1em;
-    opacity: 0.8;
+    font-size: 1em;
+    opacity: 0.5;
     cursor: pointer;
     display: flex !important;
     align-items: center;
@@ -143,7 +153,7 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_left {
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipes-counter {
     font-size: 0.9em;
     font-weight: 600;
-    opacity: 0.8;
+    opacity: 0.5;
     min-width: unset;
     display: flex !important;
     align-items: center;
@@ -154,8 +164,8 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipes-counter {
 
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     position: static !important;
-    font-size: 1.1em;
-    opacity: 0.8;
+    font-size: 1em;
+    opacity: 0.5;
     cursor: pointer;
     display: flex !important;
     align-items: center;
@@ -163,7 +173,7 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     height: auto !important;
 }
 
-/* ── Sliders nas configurações ── */
+/* Settings sliders */
 .chat-card-layout-settings .ccl-slider-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -193,6 +203,16 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
 
 .chat-card-layout-settings .ccl-presets-row .menu_button.disabled {
     opacity: 0.45;
+    pointer-events: none;
+}
+
+.chat-card-layout-settings .ccl-setting-disabled {
+    opacity: 0.5;
+}
+
+.chat-card-layout-settings .ccl-setting-disabled input,
+.chat-card-layout-settings .ccl-setting-disabled .neo-range-input,
+.chat-card-layout-settings .ccl-setting-disabled .neo-range-slider {
     pointer-events: none;
 }
 
