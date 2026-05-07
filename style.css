@@ -140,8 +140,8 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar {
 
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_left {
     position: static !important;
-    font-size: 1.1em;
-    opacity: 0.8;
+    font-size: 1em;
+    opacity: 0.7;
     cursor: pointer;
     display: flex !important;
     align-items: center;
@@ -164,8 +164,8 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipes-counter {
 
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     position: static !important;
-    font-size: 1.1em;
-    opacity: 0.8;
+    font-size: 1em;
+    opacity: 0.7;
     cursor: pointer;
     display: flex !important;
     align-items: center;
