@@ -48,7 +48,7 @@ body.ccl-active .ccl-card-header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 9px;
+    gap: 7px;
     margin-bottom: 10px;
 }
 
