@@ -132,7 +132,7 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar {
     align-items: center !important;
     justify-content: space-between !important;
     gap: 0 !important;
-    margin-top: 8px;
+    margin-top: 12px;
     width: 100%;
     position: static !important;
     border-top: none !important;
