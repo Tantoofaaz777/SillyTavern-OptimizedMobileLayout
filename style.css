@@ -127,10 +127,9 @@ body.ccl-active .mes.ccl-processed .mes_text {
 
 /* Swipe bar */
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar {
-    display: flex !important;
-    flex-direction: row !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center !important;
-    justify-content: flex-end !important;
     gap: 0 !important;
     margin-top: 8px;
     width: 100%;
@@ -147,7 +146,8 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_left {
     align-items: center;
     width: auto !important;
     height: auto !important;
-    margin-right: 20px !important;
+    margin-right: 0 !important;
+    justify-self: start;
 }
 
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipes-counter {
@@ -159,7 +159,8 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipes-counter {
     align-items: center;
     height: auto !important;
     margin-bottom: 0 !important;
-    margin-right: 20px !important;
+    margin-right: 0 !important;
+    justify-self: center;
 }
 
 body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
@@ -171,6 +172,7 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     align-items: center;
     width: auto !important;
     height: auto !important;
+    justify-self: end;
 }
 
 /* Settings sliders */
