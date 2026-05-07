@@ -204,6 +204,16 @@ body.ccl-active .mes.ccl-processed .ccl-swipe-bar .swipe_right {
     pointer-events: none;
 }
 
+.chat-card-layout-settings .ccl-setting-disabled {
+    opacity: 0.5;
+}
+
+.chat-card-layout-settings .ccl-setting-disabled input,
+.chat-card-layout-settings .ccl-setting-disabled .neo-range-input,
+.chat-card-layout-settings .ccl-setting-disabled .neo-range-slider {
+    pointer-events: none;
+}
+
 .chat-card-layout-settings .ccl-slider-grid .range-block-range-and-counter {
     min-width: 0;
 }
