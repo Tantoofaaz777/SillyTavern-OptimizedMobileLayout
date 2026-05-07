@@ -59,7 +59,8 @@ body.ccl-active .ccl-avatar-col .avatar {
     flex-shrink: 0;
     overflow: hidden;
     box-sizing: border-box;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
+    padding: 2px;
 }
 
 body.ccl-active .ccl-avatar-col .avatar img {
