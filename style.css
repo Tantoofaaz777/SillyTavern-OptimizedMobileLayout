@@ -96,6 +96,7 @@ body.ccl-active .ccl-name-row .ch_name {
     width: 100%;
     margin-bottom: 0;
     padding-left: 4px;
+    padding-right: 4px;
     box-sizing: border-box;
 }
 
@@ -107,7 +108,7 @@ body.ccl-active .ccl-name-row .name_text {
 /* ── Texto com variáveis controláveis ── */
 body.ccl-active .mes.ccl-processed .mes_text {
     padding-left: 4px !important;
-    padding-right: 0 !important;
+    padding-right: 4px !important;
     padding-top: 4px;
     padding-bottom: 4px;
     font-size: var(--ccl-font-size, 100%) !important;
