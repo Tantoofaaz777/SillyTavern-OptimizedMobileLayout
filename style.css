@@ -48,7 +48,7 @@ body.ccl-active .ccl-card-header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
+    gap: 4px;
     margin-bottom: 10px;
 }
 
@@ -98,6 +98,9 @@ body.ccl-active .ccl-meta-row {
     font-size: 0.75em;
     opacity: 0.65;
     margin-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    box-sizing: border-box;
 }
 
 body.ccl-active .ccl-name-row .ch_name {
